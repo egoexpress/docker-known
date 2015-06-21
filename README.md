@@ -1,9 +1,11 @@
 docker-known
 ============
 
+A quick and dirty copy of Eric Hansander's Docker Known container with untested dockerfile updated from v0.6.5 to v0.7.8.5.
+
 Run the [Known][1] social publishing platform in a [Docker][2] container!
 
-This unofficial image uses the 0.6.5 ("Dunham") release of Known, and has been
+This unofficial image uses the 0.7.8.5 ("Makeba") release of Known, and has been
 designed to run one process per container, i.e.:
 
 - one container used as [data volume][3] for settings, posts, etc.
