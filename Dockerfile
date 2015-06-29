@@ -2,7 +2,7 @@ FROM ubuntu:trusty
 
 MAINTAINER Eric Hansander <eric@erichansander.com>
 
-RUN apt-get update
+RUN apt-get update && apt-get install -y git
 
 # Install Apache and extensions
 # [Known PHP depepndencies](http://docs.withknown.com/en/latest/install/requirements.html),
