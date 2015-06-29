@@ -4,6 +4,8 @@ MAINTAINER Eric Hansander <eric@erichansander.com>
 
 RUN apt-get update && apt-get install -y git
 
+ENV HOME /root
+
 # Install Apache and extensions
 # [Known PHP depepndencies](http://docs.withknown.com/en/latest/install/requirements.html),
 # as of the 0.6.4 ("Dunham") release:
