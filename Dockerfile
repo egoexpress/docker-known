@@ -4,8 +4,9 @@ MAINTAINER Eric Hansander <eric@erichansander.com>
 
 RUN apt-get update
 
-ENV HOME /root
-ENV PATH /usr/local/rvm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+# ENV HOME /root
+# ENV PATH /usr/local/rvm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ENV DEBIAN_FRONTEND noninteractive
 # RUN ssh-keygen -f /root/.ssh/id_rsa -q -N ""
 
 # Install Apache and extensions
