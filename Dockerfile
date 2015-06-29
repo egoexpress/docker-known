@@ -4,7 +4,8 @@ MAINTAINER Eric Hansander <eric@erichansander.com>
 
 RUN apt-get update
 
-# ENV HOME /root
+ENV HOME /root
+RUN ssh-keygen -f /root/.ssh/id_rsa -q -N ""
 
 # Install Apache and extensions
 # [Known PHP depepndencies](http://docs.withknown.com/en/latest/install/requirements.html),
