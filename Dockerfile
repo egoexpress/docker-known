@@ -2,9 +2,9 @@ FROM ubuntu:trusty
 
 MAINTAINER Eric Hansander <eric@erichansander.com>
 
-RUN apt-get update && apt-get install -y git
+RUN apt-get update
 
-ENV HOME /root
+# ENV HOME /root
 
 # Install Apache and extensions
 # [Known PHP depepndencies](http://docs.withknown.com/en/latest/install/requirements.html),
@@ -26,7 +26,8 @@ RUN apt-get -yq  --no-install-recommends install \
 		php5-curl \
 		php5-gd \
 		php5-mysql \
-		php5-xmlrpc
+		php5-xmlrpc \
+		git
 
 # Configure Apache
 RUN cd /etc/apache2/mods-enabled \
