@@ -50,7 +50,7 @@ previous step:
         -e MYSQL_DATABASE=known \
         -e MYSQL_USER=known \
         -e MYSQL_PASSWORD=knownpassword \
-        -d ehdr/known
+        -d davesgonechina/known
 
 Notes:
 
@@ -67,10 +67,11 @@ first!):
 
     datavolume:
       image: ubuntu:trusty
-      volumes:
-        - /var/lib/mysql
-        - /known/uploads
-    
+    volumes:
+      - /opt/known/mysql:/var/lib/mysql
+      - /opt/known/uploads:/known/uploads
+      - /opt/known/IdnoPlugins:/var/www/known/IdnoPlugins
+   
     mysql:
       image: mysql
       volumes_from:
@@ -82,7 +83,7 @@ first!):
         - MYSQL_ROOT_PASSWORD=rootpassword
     
     known:
-      image: ehdr/known
+      image: davesgonechina/known
       volumes_from:
         - datavolume
       environment:
