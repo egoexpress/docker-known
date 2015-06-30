@@ -4,6 +4,11 @@ MAINTAINER Eric Hansander <eric@erichansander.com>
 
 RUN apt-get update
 
+# ENV HOME /root
+# ENV PATH /usr/local/rvm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ENV DEBIAN_FRONTEND noninteractive
+# RUN ssh-keygen -f /root/.ssh/id_rsa -q -N ""
+
 # Install Apache and extensions
 # [Known PHP depepndencies](http://docs.withknown.com/en/latest/install/requirements.html),
 # as of the 0.6.4 ("Dunham") release:
@@ -24,7 +29,8 @@ RUN apt-get -yq  --no-install-recommends install \
 		php5-curl \
 		php5-gd \
 		php5-mysql \
-		php5-xmlrpc
+		php5-xmlrpc \
+		git
 
 # Configure Apache
 RUN cd /etc/apache2/mods-enabled \
@@ -57,7 +63,12 @@ RUN cd /etc/apache2/sites-enabled \
 	&& rm -f 000-default.conf \
 	&& ln -s ../sites-available/known.conf .
 
-#Clean-up
+#Add IdnoMarkdown plugin
+RUN git clone --recursive https://github.com/mapkyca/IdnoMarkdown.git /var/www/known/IdnoPlugins/IdnoMarkdown \
+	&& mv /var/www/known/IdnoPlugins/IdnoMarkdown/Markdown /var/ww/known/IdnoPlugins \
+	&& rm -r /var/www/known/IdnoPlugins/IdnoMarkdown
+
+# Clean-up
 RUN rm -rf /var/lib/apt/lists/*
 
 # Set up container entrypoint
