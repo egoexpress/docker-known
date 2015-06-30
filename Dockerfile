@@ -44,12 +44,6 @@ RUN mkdir -p /var/www/known \
 	&& curl -SL http://assets.withknown.com/releases/known-0.7.8.5.1.tgz \
 		| tar -xzC /var/www/known/
 
-#Add IdnoMarkdown plugin
-RUN cd /var/www/known/IdnoPlugins \
-        && git clone --recursive https://github.com/mapkyca/IdnoMarkdown.git \
-        && mv IdnoMarkdown/Markdown . \
-        && rm -r IdnoMarkdown
-
 # Configure Known
 COPY config.ini /var/www/known/
 RUN cd /var/www/known \
