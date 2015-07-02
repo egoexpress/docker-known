@@ -58,7 +58,7 @@ RUN cd /etc/apache2/sites-enabled \
 	&& ln -s ../sites-available/known.conf .
 
 #Add IdnoMarkdown plugin
-RUN git clone --recursive https://github.com/mapkyca/IdnoMarkdown.git /var/www/known/IdnoPlugins/IdnoMarkdown \
+CMD git clone --recursive https://github.com/mapkyca/IdnoMarkdown.git /var/www/known/IdnoPlugins/IdnoMarkdown \
 	&& mv /var/www/known/IdnoPlugins/IdnoMarkdown/Markdown /var/ww/known/IdnoPlugins \
 	&& rm -r /var/www/known/IdnoPlugins/IdnoMarkdown
 
