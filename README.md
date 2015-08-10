@@ -5,7 +5,7 @@ A quick and dirty copy of [Eric Hansander's][1] Docker Known container with unte
 
 Run the [Known][2] social publishing platform in a [Docker][3] container!
 
-This unofficial image uses the 0.7.8.5 ("Makeba") release of Known, and has been
+This unofficial image uses the latest release of Known available on Github, and has been
 designed to run one process per container, i.e.:
 
 - one container used as [data volume][4] for settings, posts, etc.

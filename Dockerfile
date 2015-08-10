@@ -1,6 +1,6 @@
 FROM ubuntu:trusty
 
-MAINTAINER Eric Hansander <eric@erichansander.com>
+MAINTAINER davesgonechina
 
 RUN apt-get update
 
@@ -11,7 +11,7 @@ RUN apt-get update
 
 # Install Apache and extensions
 # [Known PHP depepndencies](http://docs.withknown.com/en/latest/install/requirements.html),
-# as of the 0.6.4 ("Dunham") release:
+# as of the 0.8.2 ("Giotto") release:
 # - curl
 # - date (included in libapache2-mod-php5)
 # - dom (included in libapache2-mod-php5)
@@ -36,19 +36,21 @@ RUN apt-get -yq  --no-install-recommends install \
 RUN cd /etc/apache2/mods-enabled \
 	&& ln -s ../mods-available/rewrite.load .
 
+# Configure Git
+RUN git config --global http.sslverify false
+
 # Install Known
 RUN apt-get -yq  --no-install-recommends install \
 		curl \
 		mysql-client
 RUN mkdir -p /var/www/known \
-	&& curl -SL http://assets.withknown.com/releases/known-0.6.5.tgz \
-		| tar -xzC /var/www/known/
+	&& git clone https://github.com/idno/Known.git /var/www/known
 
 # Configure Known
 COPY config.ini /var/www/known/
 RUN cd /var/www/known \
 	&& chmod 644 config.ini \
-	&& mv htaccess-2.4.dist .htaccess \
+	&& mv htaccess.dist .htaccess \
 	&& chown -R root:www-data /var/www/known/
 
 COPY apache2/sites-available/known.conf /etc/apache2/sites-available/
@@ -57,10 +59,13 @@ RUN cd /etc/apache2/sites-enabled \
 	&& rm -f 000-default.conf \
 	&& ln -s ../sites-available/known.conf .
 
-#Add IdnoMarkdown plugin
-CMD git clone --recursive https://github.com/mapkyca/IdnoMarkdown.git /var/www/known/IdnoPlugins/IdnoMarkdown \
-	&& mv /var/www/known/IdnoPlugins/IdnoMarkdown/Markdown /var/ww/known/IdnoPlugins \
-	&& rm -r /var/www/known/IdnoPlugins/IdnoMarkdown
+#Add plugins
+RUN cd /var/www/known/IdnoPlugins \
+	&& git clone https://github.com/idno/Markdown.git \
+	&& git clone https://github.com/idno/Diigo.git \
+	&& git clone https://github.com/mapkyca/KnownLinkedin \
+	&& mv /var/www/known/IdnoPlugins/KnownLinkedin/LinkedIn /var/www/known/IdnoPlugins \
+	&& rm -r /var/www/known/IdnoPlugins/KnownLinkedin
 
 # Clean-up
 RUN rm -rf /var/lib/apt/lists/*
