@@ -4,7 +4,7 @@ datavolume:
   volumes:
     - /opt/known/mysql:/var/lib/mysql
     - /opt/known/uploads:/known/uploads
-    - /opt/known/IdnoPlugins:/var/www/known/IdnoPlugins
+#    - /opt/known/IdnoPlugins:/var/www/known/IdnoPlugins
 
 mysql:
 #  restart: on-failure:10
@@ -19,7 +19,7 @@ mysql:
 
 known:
 #  restart: on-failure:10
-  image: davesgonechina/known:0.1
+  image: davesgonechina/known
   volumes_from:
     - datavolume
   environment:
