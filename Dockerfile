@@ -65,6 +65,8 @@ RUN cd /var/www/known/IdnoPlugins \
 	&& git clone https://github.com/idno/Twitter.git \
 	&& git clone https://github.com/idno/Markdown.git \
 	&& git clone https://github.com/idno/Diigo.git \
+	&& git clone https://github.com/idno/S3.git \
+	&& git clone https://github.com/idno/SoundCloud.git \
 	&& git clone https://github.com/mapkyca/KnownLinkedin \
 	&& mv /var/www/known/IdnoPlugins/KnownLinkedin/LinkedIn /var/www/known/IdnoPlugins \
 	&& rm -r /var/www/known/IdnoPlugins/KnownLinkedin
