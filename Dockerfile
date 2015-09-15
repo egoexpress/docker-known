@@ -61,6 +61,8 @@ RUN cd /etc/apache2/sites-enabled \
 
 #Add plugins
 RUN cd /var/www/known/IdnoPlugins \
+	&& git clone https://github.com/idno/Facebook.git \
+	&& git clone https://github.com/idno/Twitter.git \
 	&& git clone https://github.com/idno/Markdown.git \
 	&& git clone https://github.com/idno/Diigo.git \
 	&& git clone https://github.com/mapkyca/KnownLinkedin \
