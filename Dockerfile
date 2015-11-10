@@ -1,13 +1,13 @@
-FROM ubuntu:trusty
+# Dockerfile for Known using MongoDB
+# initially forked from davesgonechina/docker-known
+# inspired by ehdr/known and indiepaas/known
 
-MAINTAINER davesgonechina
+FROM debian:latest
 
-RUN apt-get update
+MAINTAINER Bjoern Stierand <bjoern-known@innovention.de>
 
-# ENV HOME /root
-# ENV PATH /usr/local/rvm/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-# ENV DEBIAN_FRONTEND noninteractive
-# RUN ssh-keygen -f /root/.ssh/id_rsa -q -N ""
+LABEL description="Image for Known (withknown.com) using MongoDB as backend" \
+      version="1.0"
 
 # Install Apache and extensions
 # [Known PHP depepndencies](http://docs.withknown.com/en/latest/install/requirements.html),
@@ -23,35 +23,35 @@ RUN apt-get update
 # - reflection (included in libapache2-mod-php5)
 # - session (included in libapache2-mod-php5)
 # - xmlrpc
-RUN apt-get -yq  --no-install-recommends install \
+RUN apt-get update && apt-get -yq --no-install-recommends install \
 		apache2 \
 		libapache2-mod-php5 \
 		php5-curl \
 		php5-gd \
-		php5-mysql \
+		php5-mongo \
 		php5-xmlrpc \
-		git
+		unzip
 
 # Configure Apache
 RUN cd /etc/apache2/mods-enabled \
 	&& ln -s ../mods-available/rewrite.load .
 
-# Configure Git
-RUN git config --global http.sslverify false
-
-# Install Known
-RUN apt-get -yq  --no-install-recommends install \
-		curl \
-		mysql-client
+# Create Known directory
 RUN mkdir -p /var/www/known \
-	&& git clone https://github.com/idno/Known.git /var/www/known
+	&& cd /var/www/known
+
+# Download and extract Known distribution
+ADD http://assets.withknown.com/releases/known-latest.zip /var/www/known/
+RUN cd /var/www/known \
+  && unzip -qq known-latest.zip \
+  && rm known-latest.zip
 
 # Configure Known
 COPY config.ini /var/www/known/
 RUN cd /var/www/known \
 	&& chmod 644 config.ini \
 	&& mv htaccess.dist .htaccess \
-	&& chown -R root:www-data /var/www/known/
+	&& chown -R www-data:www-data /var/www/known/
 
 COPY apache2/sites-available/known.conf /etc/apache2/sites-available/
 RUN cd /etc/apache2/sites-enabled \
@@ -59,29 +59,77 @@ RUN cd /etc/apache2/sites-enabled \
 	&& rm -f 000-default.conf \
 	&& ln -s ../sites-available/known.conf .
 
-#Add plugins
-RUN cd /var/www/known/IdnoPlugins \
-	&& git clone https://github.com/idno/Facebook.git \
-	&& git clone https://github.com/idno/Twitter.git \
-	&& git clone https://github.com/idno/Markdown.git \
-	&& git clone https://github.com/idno/Diigo.git \
-	&& git clone https://github.com/idno/S3.git \
-	&& git clone https://github.com/mapkyca/KnownChrome.git \
-	&& mv /var/www/known/IdnoPlugins/KnownChome/Chrome /var/www/known/IdnoPlugins \
-	&& rm -r /var/www/known/IdnoPlugins/KnownChrome \
-	&& git clone https://github.com/idno/SoundCloud.git \
-	&& git clone https://github.com/mapkyca/KnownLinkedin \
-	&& mv /var/www/known/IdnoPlugins/KnownLinkedin/LinkedIn /var/www/known/IdnoPlugins \
-	&& rm -r /var/www/known/IdnoPlugins/KnownLinkedin
+# Add Facebook plugin
+ADD https://github.com/idno/Facebook/archive/master.zip /var/www/known/IdnoPlugins/
+RUN cd /var/www/known/IdnoPlugins && \
+  unzip -qq master.zip && \
+  mv Facebook-master/ Facebook && \
+  rm master.zip
+
+# Add Twitter plugin
+ADD https://github.com/idno/Twitter/archive/master.zip /var/www/known/IdnoPlugins/
+RUN cd /var/www/known/IdnoPlugins && \
+  unzip -qq master.zip && \
+  mv Twitter-master/ Twitter && \
+  rm master.zip
+
+# Add SoundCloud plugin
+ADD https://github.com/idno/SoundCloud/archive/master.zip /var/www/known/IdnoPlugins/
+RUN cd /var/www/known/IdnoPlugins && \
+  unzip -qq master.zip && \
+  mv SoundCloud-master/ SoundCloud && \
+  rm master.zip
+
+# Add WordPress plugin
+ADD https://github.com/idno/WordPress/archive/master.zip /var/www/known/IdnoPlugins/
+RUN cd /var/www/known/IdnoPlugins && \
+  unzip -qq master.zip && \
+  mv WordPress-master/ WordPress && \
+  rm master.zip
+
+# Add Diigo plugin
+ADD https://github.com/idno/Diigo/archive/master.zip /var/www/known/IdnoPlugins/
+RUN cd /var/www/known/IdnoPlugins && \
+  unzip -qq master.zip && \
+  mv Diigo-master/ Diigo && \
+  rm master.zip
+
+# Add Foursquare plugin
+ADD https://github.com/idno/Foursquare/archive/master.zip /var/www/known/IdnoPlugins/
+RUN cd /var/www/known/IdnoPlugins && \
+  unzip -qq master.zip && \
+  mv Foursquare-master/ Foursquare && \
+  rm master.zip
+
+# Add Flickr plugin
+ADD https://github.com/idno/Flickr/archive/master.zip /var/www/known/IdnoPlugins/
+RUN cd /var/www/known/IdnoPlugins && \
+  unzip -qq master.zip && \
+  mv Flickr-master/ Flickr && \
+  rm master.zip
+
+# Add Markdown editor plugin
+ADD https://github.com/idno/Markdown/archive/master.zip /var/www/known/IdnoPlugins/
+RUN cd /var/www/known/IdnoPlugins && \
+  unzip -qq master.zip && \
+  mv Markdown-master/ Markdown && \
+  rm master.zip
+
+# Add Chrome plugin
+ADD https://github.com/mapkyca/KnownChrome/archive/master.zip /var/www/known/IdnoPlugins/
+RUN cd /var/www/known/IdnoPlugins && \
+  unzip -qq master.zip && \
+  mv KnownChrome-master/Chrome Chrome && \
+  rm -rf master.zip KnownChrome-master
 
 # Clean-up
-RUN rm -rf /var/lib/apt/lists/*
+RUN rm -rf /var/lib/apt/lists/* && apt-get -yq clean
 
 # Set up container entrypoint
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod 700 /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
-
+# Expose Apache port and run Apache
 EXPOSE 80
 CMD ["apache2", "-DFOREGROUND"]
