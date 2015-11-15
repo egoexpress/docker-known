@@ -26,11 +26,11 @@ The data volume container will contain the MongoDB database files and the Known 
     docker run --name datavolume \
         -v your local directory here:/var/lib/mongodb \
         -v your local directory here:/known/uploads \
-        -d ubuntu:trusty true
+        -d debian:testing true
 
 
     docker run --name mongodb --volumes-from datavolume \
-        -d mongodb
+        -d mongo
 
 
     docker run --name known --volumes-from datavolume --link mongodb:mongodb -p 80:80 \
@@ -49,4 +49,4 @@ How to build it
 ---------------
 To build the image locally, simply
 
-    docker build -t davesgonechina/known .
+    docker build -t egoexpress/known .
