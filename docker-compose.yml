@@ -2,9 +2,8 @@ datavolume:
 #  restart: on-failure:10
   image: debian:latest
   volumes:
-    - /opt/known/mysql:/var/lib/mysql
+    - /opt/known/mongodb:/var/lib/mongodb
     - /opt/known/uploads:/known/uploads
-#    - /opt/known/IdnoPlugins:/var/www/known/IdnoPlugins
 
 mongodb:
 #  restart: on-failure:10
