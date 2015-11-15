@@ -132,4 +132,4 @@ ENTRYPOINT ["/docker-entrypoint.sh"]
 
 # Expose Apache port and run Apache
 EXPOSE 80
-CMD ["apache2", "-DFOREGROUND"]
+CMD ["/usr/sbin/apache2", "-DFOREGROUND"]
