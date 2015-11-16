@@ -19,7 +19,7 @@ known:
   restart: on-failure:10
   volumes_from:
     - datavolume
-  ports:
-    - "80:80"
   links:
     - "mongodb:mongodb"
+  environment:
+    - VIRTUAL_HOST=known.stierand.org
