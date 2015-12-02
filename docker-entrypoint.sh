@@ -6,8 +6,6 @@
 
 set -e
 
-me=`basename -- "$0"`
-
 # Fix permissions for the uploads directory, since it was mounted by
 # --volumes-from when the container was run.
 chown -R root:www-data /known/uploads
