@@ -22,4 +22,6 @@ known:
   links:
     - "mongodb:mongodb"
   environment:
-    - VIRTUAL_HOST=known.stierand.org
+    - VIRTUAL_HOST=${DOCKER_KNOWN_HOSTNAME}
+    - LETSENCRYPT_HOST=${DOCKER_KNOWN_HOSTNAME}
+    - LETSENCRYPT_EMAIL=${DOCKER_LETSENCRYPT_EMAIL}
