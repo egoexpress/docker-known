@@ -3,15 +3,20 @@ datavolume:
   image: debian:latest
   restart: on-failure:10
   volumes:
-    - /opt/known/mongodb:/var/lib/mongodb
+    - /opt/known/mysql:/var/lib/mysql
     - /opt/known/uploads:/known/uploads
 
-mongodb:
-  container_name: known-mongodb
-  image: mongo:latest
+mysql:
+  container_name: known-mysql
+  image: mysql
   restart: on-failure:10
   volumes_from:
     - datavolume
+  environment:
+    - MYSQL_DATABASE=known
+    - MYSQL_USER=known
+    - MYSQL_PASSWORD=${DOCKER_KNOWN_MYSQL_PASSWORD}
+    - MYSQL_ROOT_PASSWORD=${DOCKER_KNOWN_MYSQL_PASSWORD}
 
 known:
   container_name: known
@@ -20,8 +25,9 @@ known:
   volumes_from:
     - datavolume
   links:
-    - "mongodb:mongodb"
+    - "mysql:mysql"
   environment:
     - VIRTUAL_HOST=${DOCKER_KNOWN_HOSTNAME}
     - LETSENCRYPT_HOST=${DOCKER_KNOWN_HOSTNAME}
     - LETSENCRYPT_EMAIL=${DOCKER_LETSENCRYPT_EMAIL}
+    - KNOWN_MYSQL_PASSWORD=${DOCKER_KNOWN_MYSQL_PASSWORD}

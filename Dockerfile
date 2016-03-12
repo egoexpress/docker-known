@@ -1,4 +1,4 @@
-# Dockerfile for Known using MongoDB
+# Dockerfile for Known using MySQL
 # initially forked from davesgonechina/docker-known
 # inspired by ehdr/known and indiepaas/known
 
@@ -6,8 +6,8 @@ FROM debian:latest
 
 MAINTAINER Bjoern Stierand <bjoern-known@innovention.de>
 
-LABEL description="Image for Known (withknown.com) using MongoDB as backend" \
-      version="1.0"
+LABEL description="Image for Known (withknown.com) using MySQL as backend" \
+      version="1.1"
 
 # Install Apache and extensions
 # [Known PHP depepndencies](http://docs.withknown.com/en/latest/install/requirements.html),
@@ -19,7 +19,7 @@ LABEL description="Image for Known (withknown.com) using MongoDB as backend" \
 # - json (included in libapache2-mod-php5)
 # - libxml (included in libapache2-mod-php5)
 # - mbstring (included in libapache2-mod-php5)
-# - mongo or mysql
+# - mysql
 # - reflection (included in libapache2-mod-php5)
 # - session (included in libapache2-mod-php5)
 # - xmlrpc
@@ -28,8 +28,9 @@ RUN apt-get update && apt-get -yq --no-install-recommends install \
 		libapache2-mod-php5 \
 		php5-curl \
 		php5-gd \
-		php5-mongo \
+		php5-mysql \
 		php5-xmlrpc \
+    mysql-client \
 		unzip
 
 # Configure Apache
