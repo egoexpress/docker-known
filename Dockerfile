@@ -123,6 +123,13 @@ RUN cd /var/www/known/IdnoPlugins && \
   mv KnownChrome-master/Chrome Chrome && \
   rm -rf master.zip KnownChrome-master
 
+# Add Pushover plugin
+ADD https://github.com/timmmmyboy/Pushover/archive/master.zip /var/www/known/IdnoPlugins/
+RUN cd /var/www/known/IdnoPlugins && \
+  unzip -qq master.zip && \
+  mv Pushover-master/ Pushover && \
+  rm -rf master.zip
+
 # Clean-up
 RUN rm -rf /var/lib/apt/lists/* && apt-get -yq clean
 
