@@ -130,6 +130,13 @@ RUN cd /var/www/known/IdnoPlugins && \
   mv Pushover-master/ Pushover && \
   rm -rf master.zip
 
+# Add Reactions plugin
+ADD https://github.com/kylewm/KnownReactions/archive/master.zip /var/www/known/IdnoPlugins/
+RUN cd /var/www/known/IdnoPlugins && \
+  unzip -qq master.zip && \
+  mv KnownReactions-master/ KnownReactions && \
+  rm -rf master.zip
+
 # Clean-up
 RUN rm -rf /var/lib/apt/lists/* && apt-get -yq clean
 
