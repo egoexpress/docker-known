@@ -7,7 +7,7 @@ FROM debian:latest
 MAINTAINER Bjoern Stierand <bjoern-known@innovention.de>
 
 LABEL description="Image for Known (withknown.com) using MySQL as backend" \
-      version="1.1"
+      version="1.2"
 
 # Install Apache and extensions
 # [Known PHP depepndencies](http://docs.withknown.com/en/latest/install/requirements.html),
@@ -42,23 +42,27 @@ RUN mkdir -p /var/www/known \
 	&& cd /var/www/known
 
 # Download and extract Known distribution
-ADD http://assets.withknown.com/releases/known-latest.zip /var/www/known/
-RUN cd /var/www/known \
-  && unzip -qq known-latest.zip \
-  && rm known-latest.zip
+#ADD http://assets.withknown.com/releases/known-latest.zip /var/www/known/
+ADD https://github.com/idno/known/archive/master.zip /var/www/known
+RUN cd /var/www/known &&  \
+  unzip -qq master.zip && \
+  mv Known-master/* . && \
+  mv Known-master/.htaccess . && \
+  rm -rf Known-master && \
+  rm master.zip
 
 # Configure Known
 COPY config.ini /var/www/known/
-RUN cd /var/www/known \
-	&& chmod 644 config.ini \
-	&& mv htaccess.dist .htaccess \
-	&& chown -R www-data:www-data /var/www/known/
+RUN cd /var/www/known && \
+	chmod 644 config.ini && \
+	mv htaccess.dist .htaccess && \
+	chown -R www-data:www-data /var/www/known/
 
 COPY apache2/sites-available/known.conf /etc/apache2/sites-available/
-RUN cd /etc/apache2/sites-enabled \
-	&& chmod 644 ../sites-available/known.conf \
-	&& rm -f 000-default.conf \
-	&& ln -s ../sites-available/known.conf .
+RUN cd /etc/apache2/sites-enabled && \
+	chmod 644 ../sites-available/known.conf && \
+	rm -f 000-default.conf && \
+	ln -s ../sites-available/known.conf .
 
 # Add Facebook plugin
 ADD https://github.com/idno/Facebook/archive/master.zip /var/www/known/IdnoPlugins/
@@ -134,7 +138,7 @@ RUN cd /var/www/known/IdnoPlugins && \
 ADD https://github.com/kylewm/KnownReactions/archive/master.zip /var/www/known/IdnoPlugins/
 RUN cd /var/www/known/IdnoPlugins && \
   unzip -qq master.zip && \
-  mv KnownReactions-master/ KnownReactions && \
+  mv KnownReactions-master/ Reactions && \
   rm -rf master.zip
 
 # Clean-up
