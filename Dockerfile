@@ -141,6 +141,13 @@ RUN cd /var/www/known/IdnoPlugins && \
   mv KnownReactions-master/ Reactions && \
   rm -rf master.zip
 
+# Add SmallHeader plugin
+ADD https://github.com/egoexpress/known-smallheader/archive/master.zip /var/www/known/IdnoPlugins/
+RUN cd /var/www/known/IdnoPlugins && \
+  unzip -qq master.zip && \
+  mv known-smallheader-master/ SmallHeader && \
+  rm -rf master.zip
+
 # Clean-up
 RUN rm -rf /var/lib/apt/lists/* && apt-get -yq clean
 
