@@ -42,14 +42,10 @@ RUN mkdir -p /var/www/known \
 	&& cd /var/www/known
 
 # Download and extract Known distribution
-#ADD http://assets.withknown.com/releases/known-latest.zip /var/www/known/
-ADD https://github.com/idno/known/archive/master.zip /var/www/known
-RUN cd /var/www/known &&  \
-  unzip -qq master.zip && \
-  mv Known-master/* . && \
-  mv Known-master/.htaccess . && \
-  rm -rf Known-master && \
-  rm master.zip
+ADD http://assets.withknown.com/releases/known-latest.zip /var/www/known/
+RUN cd /var/www/known && \
+  unzip -qq known-latest.zip && \
+  rm known-latest.zip
 
 # Configure Known
 COPY config.ini /var/www/known/
