@@ -7,7 +7,7 @@ FROM debian:latest
 MAINTAINER Bjoern Stierand <bjoern-known@innovention.de>
 
 LABEL description="Image for Known (withknown.com) using MySQL as backend" \
-      version="1.2"
+      version="1.3"
 
 # Install Apache and extensions
 # [Known PHP depepndencies](http://docs.withknown.com/en/latest/install/requirements.html),
@@ -146,6 +146,13 @@ ADD https://github.com/egoexpress/known-smallheader/archive/master.zip /var/www/
 RUN cd /var/www/known/IdnoPlugins && \
   unzip -qq master.zip && \
   mv known-smallheader-master/ SmallHeader && \
+  rm -rf master.zip
+
+# Add ShortProfile plugin
+ADD https://github.com/egoexpress/known-shortprofile/archive/master.zip /var/www/known/IdnoPlugins/
+RUN cd /var/www/known/IdnoPlugins && \
+  unzip -qq master.zip && \
+  mv known-shortprofile-master/ ShortProfile && \
   rm -rf master.zip
 
 # Clean-up
