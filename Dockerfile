@@ -151,6 +151,20 @@ RUN cd /var/www/known/IdnoPlugins && \
   mv known-shortprofile-master/ ShortProfile && \
   rm -rf master.zip
 
+# Add Pinboard plugin
+ADD https://github.com/egoexpress/known-pinboard/archive/master.zip /var/www/known/IdnoPlugins/
+RUN cd /var/www/known/IdnoPlugins && \
+  unzip -qq master.zip && \
+  mv known-pinboard-master/ Pinboard && \
+  rm -rf master.zip
+
+# Add Chrome plugin
+ADD https://github.com/danito/KnownYourls/archive/master.zip /var/www/known/IdnoPlugins/
+RUN cd /var/www/known/IdnoPlugins && \
+  unzip -qq master.zip && \
+  mv KnownYourls-master/Yourls Yourls && \
+  rm -rf master.zip KnownYourls-master
+
 # Clean-up
 RUN rm -rf /var/lib/apt/lists/* && apt-get -yq clean
 
