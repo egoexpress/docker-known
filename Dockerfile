@@ -158,12 +158,19 @@ RUN cd /var/www/known/IdnoPlugins && \
   mv known-pinboard-master/ Pinboard && \
   rm -rf master.zip
 
-# Add Chrome plugin
+# Add Yourls plugin
 ADD https://github.com/danito/KnownYourls/archive/master.zip /var/www/known/IdnoPlugins/
 RUN cd /var/www/known/IdnoPlugins && \
   unzip -qq master.zip && \
   mv KnownYourls-master/Yourls Yourls && \
   rm -rf master.zip KnownYourls-master
+
+# Add Journal plugin
+ADD https://github.com/tinokremer/KnownJournal/archive/master.zip /var/www/known/IdnoPlugins/
+RUN cd /var/www/known/IdnoPlugins && \
+  unzip -qq master.zip && \
+  mv KnownJournal-master/ Journal && \
+  rm -rf master.zip
 
 # Clean-up
 RUN rm -rf /var/lib/apt/lists/* && apt-get -yq clean
