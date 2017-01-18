@@ -49,4 +49,10 @@ mysql -h mysql -u known -p$KNOWN_MYSQL_PASSWORD known \
     < /var/www/known/schemas/mysql/mysql.sql
 
 source /etc/apache2/envvars
+
+if [ -f "$APACHE_PID_FILE" ]; then
+    echo "$me: warning: removing existing Apache PID file: $APACHE_PID_FILE"
+    rm -f "$APACHE_PID_FILE"
+fi
+
 exec "$@"
