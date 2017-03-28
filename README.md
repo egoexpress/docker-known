@@ -1,5 +1,6 @@
-[![Code Climate](https://codeclimate.com/github/egoexpress/innoxmpp/badges/gpa.svg)](https://codeclimate.com/github/egoexpress/innoxmpp)
-[![](https://imagelayers.io/badge/egoexpress/known:latest.svg)](https://imagelayers.io/?images=egoexpress/known:latest 'Imagelayers.io')
+[![Code Climate](https://codeclimate.com/github/egoexpress/docker-known/badges/gpa.svg)](https://codeclimate.com/github/egoexpress/docker-known)
+[![](https://badge.imagelayers.io/egoexpress/known:latest.svg)](https://imagelayers.io/?images=egoexpress/known:latest 'Get your own badge on imagelayers.io')
+
 
 docker-known
 ============
