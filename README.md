@@ -8,6 +8,8 @@ Based on [Davesgonechina's](https://github.com/davesgonechina) [Docker Known con
 
 This builds a set of containers to run the latest version of [Known](https://withknown.com/) with one process per container (one container for the [data volume](http://docs.docker.com/userguide/dockervolumes/), one for the database and one running Apache and the Known PHP application itself).
 
+Use the [git-head branch](https://github.com/egoexpress/docker-known/tree/git-head) to get the latest Known version from [GitHub](https://github.com/idno/Known/). The [master branch](https://github.com/egoexpress/docker-known/tree/master) uses the latest Known release from the [web site](http://withknown.com/opensource).
+
 Changes within the fork
 -----------------------
 This fork contains the following changes in comparison to [Davesgonechina's original](https://github.com/davesgonechina/docker-known):
