@@ -7,7 +7,9 @@ FROM debian:latest
 MAINTAINER Bjoern Stierand <bjoern-known@innovention.de>
 
 LABEL description="Image for Known (withknown.com) using MySQL as backend" \
-      version="1.3"
+      version="0.9.9"
+
+ENV known_release 0.9.9
 
 # Install Apache and extensions
 # [Known PHP depepndencies](http://docs.withknown.com/en/latest/install/requirements.html),
@@ -42,10 +44,10 @@ RUN mkdir -p /var/www/known \
 	&& cd /var/www/known
 
 # Download and extract Known distribution
-ADD http://assets.withknown.com/releases/known-latest.zip /var/www/known/
+ADD http://assets.withknown.com/releases/known-${known_release}.zip /var/www/known/
 RUN cd /var/www/known && \
-  unzip -qq known-latest.zip && \
-  rm known-latest.zip
+  unzip -qq known-${known_release}.zip && \
+  rm known-${known_release}.zip
 
 # Configure Known
 COPY config.ini /var/www/known/
