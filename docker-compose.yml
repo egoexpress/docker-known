@@ -1,33 +1,38 @@
-datavolume:
-  container_name: known-data
-  image: debian:latest
-  restart: on-failure:10
-  volumes:
-    - /opt/known/mysql:/var/lib/mysql
-    - /opt/known/uploads:/known/uploads
+version: '3.3'
 
-mysql:
-  container_name: known-mysql
-  image: mysql
-  restart: on-failure:10
-  volumes_from:
-    - datavolume
-  environment:
-    - MYSQL_DATABASE=known
-    - MYSQL_USER=known
-    - MYSQL_PASSWORD=${DOCKER_KNOWN_MYSQL_PASSWORD}
-    - MYSQL_ROOT_PASSWORD=${DOCKER_KNOWN_MYSQL_PASSWORD}
+services:
 
-known:
-  container_name: known
-  image: egoexpress/known:latest
-  restart: on-failure:10
-  volumes_from:
-    - datavolume
-  links:
-    - "mysql:mysql"
-  environment:
-    - VIRTUAL_HOST=${DOCKER_KNOWN_HOSTNAME}
-    - LETSENCRYPT_HOST=${DOCKER_KNOWN_HOSTNAME}
-    - LETSENCRYPT_EMAIL=${DOCKER_LETSENCRYPT_EMAIL}
-    - KNOWN_MYSQL_PASSWORD=${DOCKER_KNOWN_MYSQL_PASSWORD}
+  db:
+    image: mysql
+    restart: always
+    volumes:
+      - /opt/known/mysql:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=known
+      - MYSQL_USER=known
+      - MYSQL_PASSWORD=
+      - MYSQL_ROOT_PASSWORD=
+    networks:
+      backend:
+
+  app:
+    image: egoexpress/known:0.9.9
+    restart: always
+    depends_on:
+      - db
+    links:
+      - db:mysql
+    volumes:
+      - /opt/known/uploads:/known/uploads
+    environment:
+      - VIRTUAL_HOST=
+      - LETSENCRYPT_HOST=
+      - LETSENCRYPT_EMAIL=
+      - KNOWN_MYSQL_PASSWORD=
+    networks:
+      frontend:
+      backend:
+
+networks:
+  frontend:
+  backend:
