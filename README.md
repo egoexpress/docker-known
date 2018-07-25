@@ -1,15 +1,9 @@
-[![Code Climate](https://codeclimate.com/github/egoexpress/docker-known/badges/gpa.svg)](https://codeclimate.com/github/egoexpress/docker-known)
-[![](https://badge.imagelayers.io/egoexpress/known:latest.svg)](https://imagelayers.io/?images=egoexpress/known:latest 'Get your own badge on imagelayers.io')
-
-
 docker-known
 ============
 
-Based on [Davesgonechina's](https://github.com/davesgonechina) [Docker Known container setup](https://github.com/davesgonechina/docker-known), which in itself is based on [Eric Hansander's](https://github.com/ehdr) [Docker Known container](https://registry.hub.docker.com/u/ehdr/known/).
+Initially based on [Davesgonechina's](https://github.com/davesgonechina) [Docker Known container setup](https://github.com/davesgonechina/docker-known), which in itself is based on [Eric Hansander's](https://github.com/ehdr) [Docker Known container](https://registry.hub.docker.com/u/ehdr/known/), this Known Docker configuration is now a complete rewrite on the docker-compose side.
 
-This builds a set of containers to run the latest version of [Known](https://withknown.com/) with one process per container (one container for the [data volume](http://docs.docker.com/userguide/dockervolumes/), one for the database and one running Apache and the Known PHP application itself).
-
-Use the [git-head branch](https://github.com/egoexpress/docker-known/tree/git-head) to get the latest Known version from [GitHub](https://github.com/idno/Known/). The [master branch](https://github.com/egoexpress/docker-known/tree/master) uses the latest Known release from the [web site](http://withknown.com/opensource).
+This repo builds a set of containers to run the latest stable version of [Known](https://withknown.com/) with one process per container (one for the MySQL database and one running Apache and the Known PHP application itself).
 
 Changes within the fork
 -----------------------
@@ -23,29 +17,13 @@ This image used to use MongoDB instead of MySQL, but as the Known developers see
 
 How to run it
 -------------
-Just run the docker-compose.yml file in detached mode with [Docker Compose](https://docs.docker.com/compose/):
+Just run the docker-compose.yml file in detached mode with [Docker Compose](https://docs.docker.com/compose/) and set the required environment variables.
+Don't set `DOCKER_KNOWN_HOSTNAME` and `DOCKER_LETSENCRYPT_EMAIL` if you don't use the nginx reverse proxy.
 
-    export KNOWN_MYSQL_PASSWORD=YORPASSWORD
+    export DOCKER_KNOWN_MYSQL_PASSWORD=YOURPASSWORD
     export DOCKER_KNOWN_HOSTNAME=YOURHOSTNAME
     export DOCKER_LETSENCRYPT_EMAIL=YOUREMAIL
-    docker-compose up -d
-
-Or alternatively, run the following from the command line:
-
-The data volume container will contain the MySQL database files and the Known uploads directory (for uploaded photos, etc.). Mounting a host directory allows you to rebuild the containers without losing your content or settings.
-
-    docker run --name datavolume \
-        -v your local directory here:/var/lib/mysql \
-        -v your local directory here:/known/uploads \
-        -d debian:testing true
-
-
-    docker run --name mysql --volumes-from datavolume \
-        -d mysql
-
-
-    docker run --name known --volumes-from datavolume --link mysql:mysql -p 80:80 \
-        -d egoexpress/known
+    docker-compose -p known up -d
 
 Enter the Known site address into your browser, and follow the instructions to create an account.
 
@@ -58,6 +36,6 @@ you can find by running
 
 How to build it
 ---------------
-To build the image locally, simply
+To build the Docker image locally, simply
 
     docker build -t egoexpress/known .
