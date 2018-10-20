@@ -3,10 +3,10 @@ version: '3.3'
 services:
 
   db:
-    image: mysql
+    image: mariadb
     restart: always
     volumes:
-      - /opt/known/mysql:/var/lib/mysql
+      - db:/var/lib/mysql
     environment:
       - MYSQL_DATABASE=known
       - MYSQL_USER=known
@@ -23,7 +23,7 @@ services:
     links:
       - db:mysql
     volumes:
-      - /opt/known/uploads:/known/uploads
+      - data:/known/uploads
     environment:
       - VIRTUAL_HOST=${DOCKER_KNOWN_HOSTNAME}
       - LETSENCRYPT_HOST=${DOCKER_KNOWN_HOSTNAME}
@@ -36,3 +36,7 @@ services:
 networks:
   frontend:
   backend:
+
+volumes:
+  db:
+  data:
