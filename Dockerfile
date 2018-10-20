@@ -9,6 +9,7 @@ LABEL description="Image for Known (withknown.com) using MySQL/MariaDB as backen
       authors="Bjoern Stierand <bjoern-known@innovention.de>"
 
 ENV known_release 0.9.9
+ENV DEBIAN_FRONTEND noninteractive
 
 # Install Apache and extensions
 # [Known PHP depepndencies](http://docs.withknown.com/en/latest/install/requirements.html),
@@ -181,11 +182,11 @@ RUN cd /var/www/known/IdnoPlugins \
   && rm journal.zip
 
 # Add Mastodon plugin
-ADD https://github.com/danito/KnownMastodon/archive/master.zip /var/www/known/IdnoPlugins/
-RUN cd /var/www/known/IdnoPlugins && \
-  unzip -qq master.zip && \
-  mv KnownMastodon-master/ Mastodon && \
-  rm -rf master.zip
+RUN cd /var/www/known/IdnoPlugins \
+  && curl -kso mastodon.zip https://codeload.github.com/danito/KnownMastodon/zip/master \
+  && unzip -qq mastodon.zip \
+  && mv KnownMastodon-master/ Mastodon \
+  && rm mastodon.zip
 
 # Clean-up
 RUN rm -rf /var/lib/apt/lists/* && apt-get -yq clean
