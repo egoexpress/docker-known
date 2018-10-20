@@ -29,6 +29,7 @@ services:
       - LETSENCRYPT_HOST=${DOCKER_KNOWN_HOSTNAME}
       - LETSENCRYPT_EMAIL=${DOCKER_LETSENCRYPT_EMAIL}
       - KNOWN_MYSQL_PASSWORD=${DOCKER_KNOWN_MYSQL_PASSWORD}
+      - SSL_POLICY=Mozilla-Modern
     networks:
       frontend:
       backend:

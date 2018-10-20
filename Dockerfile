@@ -180,6 +180,13 @@ RUN cd /var/www/known/IdnoPlugins \
   && mv KnownJournal-master/ Journal \
   && rm journal.zip
 
+# Add Mastodon plugin
+ADD https://github.com/danito/KnownMastodon/archive/master.zip /var/www/known/IdnoPlugins/
+RUN cd /var/www/known/IdnoPlugins && \
+  unzip -qq master.zip && \
+  mv KnownMastodon-master/ Mastodon && \
+  rm -rf master.zip
+
 # Clean-up
 RUN rm -rf /var/lib/apt/lists/* && apt-get -yq clean
 
