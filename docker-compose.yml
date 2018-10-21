@@ -16,7 +16,7 @@ services:
       backend:
 
   app:
-    image: egoexpress/known:0.9.9
+    image: egoexpress/known:git
     restart: always
     depends_on:
       - db
