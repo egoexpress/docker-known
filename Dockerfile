@@ -8,7 +8,8 @@ LABEL description="Image for Known (withknown.com) using MySQL/MariaDB as backen
       version="githead" \
       authors="Bjoern Stierand <bjoern-known@innovention.de>"
 
-ENV known_release 0.9.9
+ENV known_release_url http://assets.withknown.com/releases/known-0.9.9.zip
+ENV known_git_url https://codeload.github.com/idno/Known/zip/master
 ENV DEBIAN_FRONTEND noninteractive
 
 # Install Apache and extensions
@@ -45,8 +46,7 @@ RUN cd /etc/apache2/mods-enabled \
 # Download and extract Known distribution
 RUN mkdir -p /var/www/known \
   && cd /var/www/known \
-#  && curl -o known.zip http://assets.withknown.com/releases/known-${known_release}.zip \
-  && curl -ko known.zip https://codeload.github.com/idno/Known/zip/master \
+  && curl -ko known.zip ${known_git_url} \
   && unzip known.zip \
   && mv Known-master/* /var/www/known \
   && mv Known-master/.htaccess /var/www/known \
@@ -62,7 +62,6 @@ COPY apache2/sites-available/known.conf /etc/apache2/sites-available/
 
 RUN cd /var/www/known \
 	&& chmod 644 config.ini \
-	# && mv htaccess.dist .htaccess \
 	&& chown -R www-data:www-data /var/www/known/ \
   && cd /etc/apache2/sites-enabled \
 	&& chmod 644 ../sites-available/known.conf \
