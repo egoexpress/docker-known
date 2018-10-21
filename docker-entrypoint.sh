@@ -46,7 +46,7 @@ echo "$me: Successfully connected to MySQL service"
 # --link'ed to the MySQL container, so do it now. This is idempotent, so it's
 # ok to do it every time we run a container even though the DB is in a volume.
 mysql -h mysql -u known -p$KNOWN_MYSQL_PASSWORD known \
-    < /var/www/known/schemas/mysql/mysql.sql
+    < /var/www/known/warmup/schemas/mysql/mysql.sql
 
 source /etc/apache2/envvars
 
