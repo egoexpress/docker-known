@@ -48,12 +48,12 @@ RUN mkdir -p /var/www/known \
   && cd /var/www/known \
   && curl -ko known.zip ${known_git_url} \
   && unzip known.zip \
-  && mv Known-master/* /var/www/known \
-  && mv Known-master/.htaccess /var/www/known \
-  && rm Known-master/.gitignore \
-  && rm Known-master/.travis.yml \
-  && ls Known-master \
-  && rmdir Known-master \
+  && mv known-master/* /var/www/known \
+  && mv known-master/.htaccess /var/www/known \
+  && rm known-master/.gitignore \
+  && rm known-master/.travis.yml \
+  && rm -r known-master/.github \
+  && rmdir known-master \
   && rm known.zip
 
 # Configure Known
@@ -194,6 +194,8 @@ RUN rm -rf /var/lib/apt/lists/* && apt-get -yq clean
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod 700 /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
+
+HEALTHCHECK CMD curl --fail http://localhost || exit 1
 
 # Expose Apache port and run Apache
 EXPOSE 80
