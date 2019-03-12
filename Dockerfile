@@ -28,6 +28,7 @@ ENV DEBIAN_FRONTEND noninteractive
 # - xmlrpc
 RUN apt-get update && apt-get -yq --no-install-recommends install \
 		apache2 \
+		composer \
 		libapache2-mod-php \
 		php-curl \
 		php-gd \
@@ -62,6 +63,7 @@ COPY apache2/sites-available/known.conf /etc/apache2/sites-available/
 
 RUN cd /var/www/known \
 	&& chmod 644 config.ini \
+	&& composer install \
 	&& chown -R www-data:www-data /var/www/known/ \
   && cd /etc/apache2/sites-enabled \
 	&& chmod 644 ../sites-available/known.conf \
