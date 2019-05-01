@@ -2,7 +2,7 @@
 # initially forked from davesgonechina/docker-known
 # inspired by ehdr/known and indiepaas/known
 
-FROM debian:latest
+FROM ubuntu:disco
 
 LABEL description="Image for Known (withknown.com) using MySQL/MariaDB as backend" \
       version="githead" \
@@ -26,19 +26,30 @@ ENV DEBIAN_FRONTEND noninteractive
 # - reflection (included in libapache2-mod-php5)
 # - session (included in libapache2-mod-php5)
 # - xmlrpc
-RUN apt-get update && apt-get -yq --no-install-recommends install \
-		apache2 \
-		composer \
-		libapache2-mod-php \
-		php-curl \
-		php-gd \
-		php-mysql \
-		php-xmlrpc \
-    php-mbstring \
-    php-xml \
-    mysql-client \
-		unzip \
-    curl
+RUN apt-get update && \
+    apt-get -yq --no-install-recommends install gnupg2 && \
+    rm -rf /var/lib/apt/lists/*
+
+# add PPA for PHP 7.3
+COPY files/php7.3.list /etc/apt/sources.list.d/php7.3.list
+
+# add PGP key for PHP 7.3 PPA, install all required packages
+RUN apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys 4F4EA0AAE5267A6C && \
+    apt-get update && \
+    apt-get -yq --no-install-recommends install \
+		  apache2 \
+		  composer \
+		  libapache2-mod-php7.3 \
+		  php7.3-curl \
+		  php7.3-gd \
+		  php7.3-mysql \
+      php7.3-xmlrpc \
+      php7.3-mbstring \
+      php7.3-xml \
+      mysql-client \
+      unzip \
+      curl && \
+    rm -rf /var/lib/apt/lists/*
 
 # Configure Apache
 RUN cd /etc/apache2/mods-enabled \
