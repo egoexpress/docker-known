@@ -1,6 +1,8 @@
 docker-known
 ============
 
+![cistatus](https://github.com/egoexpress/docker-known/workflows/Docker%20Image%20CI/badge.svg)
+
 Initially based on [Davesgonechina's](https://github.com/davesgonechina) [Docker Known container setup](https://github.com/davesgonechina/docker-known), which in itself is based on [Eric Hansander's](https://github.com/ehdr) [Docker Known container](https://registry.hub.docker.com/u/ehdr/known/), this Known Docker configuration is now a complete rewrite on the docker-compose side.
 
 This repo builds a set of containers to run the latest stable version of [Known](https://withknown.com/) with one process per container (one for the MySQL database and one running Apache and the Known PHP application itself).
