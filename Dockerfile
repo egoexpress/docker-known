@@ -64,6 +64,7 @@ RUN mkdir -p /var/www/known \
   && mv known-master/.htaccess /var/www/known \
   && rm known-master/.gitignore \
   && rm known-master/.travis.yml \
+  && rm known-master/.babelrc \
   && rm -r known-master/.github \
   && rmdir known-master \
   && rm known.zip
@@ -72,8 +73,9 @@ RUN mkdir -p /var/www/known \
 COPY config.ini /var/www/known/
 COPY apache2/sites-available/known.conf /etc/apache2/sites-available/
 
-RUN cd /var/www/known \
-	&& chmod 644 config.ini \
+WORKDIR /var/www/known
+
+RUN chmod 644 config.ini \
 	&& composer install \
 	&& chown -R www-data:www-data /var/www/known/ \
   && cd /etc/apache2/sites-enabled \
@@ -81,19 +83,18 @@ RUN cd /var/www/known \
 	&& rm -f 000-default.conf \
 	&& ln -s ../sites-available/known.conf .
 
+RUN composer require egoexpress/known-shortprofile \
+      egoexpress/known-smallheader \
+      egoexpress/known-pinboard \
+      idno/twitter \
+      idno/flickr
+
 # Add Facebook plugin
 RUN cd /var/www/known/IdnoPlugins \
   && curl -kso facebook.zip https://codeload.github.com/idno/Facebook/zip/master \
   && unzip -qq facebook.zip \
   && mv Facebook-master/ Facebook \
   && rm facebook.zip
-
-# Add Twitter plugin
-RUN cd /var/www/known/IdnoPlugins \
-  && curl -kso twitter.zip https://codeload.github.com/idno/Twitter/zip/master \
-  && unzip -qq twitter.zip \
-  && mv Twitter-master/ Twitter \
-  && rm twitter.zip
 
 # Add SoundCloud plugin
 RUN cd /var/www/known/IdnoPlugins \
@@ -123,26 +124,12 @@ RUN cd /var/www/known/IdnoPlugins \
   && mv Foursquare-master/ Foursquare \
   && rm foursquare.zip
 
-# Add Flickr plugin
-RUN cd /var/www/known/IdnoPlugins \
-  && curl -kso flickr.zip https://codeload.github.com/idno/Flickr/zip/master \
-  && unzip -qq flickr.zip \
-  && mv Flickr-master/ Flickr \
-  && rm flickr.zip
-
 # Add Markdown plugin
 RUN cd /var/www/known/IdnoPlugins \
   && curl -kso markdown.zip https://codeload.github.com/idno/Markdown/zip/master \
   && unzip -qq markdown.zip \
   && mv Markdown-master/ Markdown \
   && rm markdown.zip
-
-# Add Chrome plugin
-RUN cd /var/www/known/IdnoPlugins \
-  && curl -kso chrome.zip https://codeload.github.com/mapkyca/KnownChrome/zip/master \
-  && unzip -qq chrome.zip \
-  && mv KnownChrome-master/ Chrome \
-  && rm chrome.zip
 
 # Add Pushover plugin
 RUN cd /var/www/known/IdnoPlugins \
@@ -157,27 +144,6 @@ RUN cd /var/www/known/IdnoPlugins \
   && unzip -qq reactions.zip \
   && mv KnownReactions-master/ Reactions \
   && rm reactions.zip
-
-# Add SmallHeader plugin
-RUN cd /var/www/known/IdnoPlugins \
-  && curl -kso smallheader.zip https://codeload.github.com/egoexpress/known-smallheader/zip/master \
-  && unzip -qq smallheader.zip \
-  && mv known-smallheader-master/ SmallHeader \
-  && rm smallheader.zip
-
-# Add SmallHeader plugin
-RUN cd /var/www/known/IdnoPlugins \
-  && curl -kso shortprofile.zip https://codeload.github.com/egoexpress/known-shortprofile/zip/master \
-  && unzip -qq shortprofile.zip \
-  && mv known-shortprofile-master/ ShortProfile \
-  && rm shortprofile.zip
-
-# Add Pinboard plugin
-RUN cd /var/www/known/IdnoPlugins \
-  && curl -kso pinboard.zip https://codeload.github.com/egoexpress/known-pinboard/zip/master \
-  && unzip -qq pinboard.zip \
-  && mv known-pinboard-master/ Pinboard \
-  && rm pinboard.zip
 
 # Add Yourls plugin
 RUN cd /var/www/known/IdnoPlugins \
