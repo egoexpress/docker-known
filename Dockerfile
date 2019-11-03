@@ -76,7 +76,7 @@ COPY apache2/sites-available/known.conf /etc/apache2/sites-available/
 WORKDIR /var/www/known
 
 RUN chmod 644 config.ini \
-	&& composer install \
+	&& composer install --prefer-dist \
 	&& chown -R www-data:www-data /var/www/known/ \
   && cd /etc/apache2/sites-enabled \
 	&& chmod 644 ../sites-available/known.conf \
