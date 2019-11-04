@@ -84,59 +84,50 @@ RUN composer require egoexpress/known-shortprofile \
       idno/twitter \
       idno/flickr
 
+WORKDIR /var/www/known/IdnoPlugins
+
 # Add Facebook plugin
-RUN cd /var/www/known/IdnoPlugins \
-  && curl -s https://codeload.github.com/idno/Facebook/tar.gz/master | tar xzf - \
+RUN curl -s https://codeload.github.com/idno/Facebook/tar.gz/master | tar xzf - \
   && mv Facebook-master/ Facebook
 
 # Add SoundCloud plugin
-RUN cd /var/www/known/IdnoPlugins \
-  && curl -s https://codeload.github.com/idno/SoundCloud/tar.gz/master | tar xzf - \
+RUN curl -s https://codeload.github.com/idno/SoundCloud/tar.gz/master | tar xzf - \
   && mv SoundCloud-master/ SoundCloud
 
 # Add WordPress plugin
-RUN cd /var/www/known/IdnoPlugins \
-  && curl -s https://codeload.github.com/idno/WordPress/tar.gz/master | tar xzf - \
+RUN curl -s https://codeload.github.com/idno/WordPress/tar.gz/master | tar xzf - \
   && mv WordPress-master/ WordPress
 
 # Add Diigo plugin
-RUN cd /var/www/known/IdnoPlugins \
-  && curl -s https://codeload.github.com/idno/Diigo/tar.gz/master | tar xzf - \
+RUN curl -s https://codeload.github.com/idno/Diigo/tar.gz/master | tar xzf - \
   && mv Diigo-master/ Diigo
 
 # Add Foursquare plugin
-RUN cd /var/www/known/IdnoPlugins \
-  && curl -s https://codeload.github.com/idno/Foursquare/tar.gz/master | tar xzf - \
+RUN  curl -s https://codeload.github.com/idno/Foursquare/tar.gz/master | tar xzf - \
   && mv Foursquare-master/ Foursquare
 
 # Add Markdown plugin
-RUN cd /var/www/known/IdnoPlugins \
-  && curl -s https://codeload.github.com/idno/Markdown/tar.gz/master | tar xzf - \
+RUN  curl -s https://codeload.github.com/idno/Markdown/tar.gz/master | tar xzf - \
   && mv Markdown-master/ Markdown
 
 # Add Pushover plugin
-RUN cd /var/www/known/IdnoPlugins \
-  && curl -s https://codeload.github.com/timmmmyboy/Pushover/tar.gz/master | tar xzf - \
+RUN  curl -s https://codeload.github.com/timmmmyboy/Pushover/tar.gz/master | tar xzf - \
   && mv Pushover-master/ Pushover
 
 # Add Reactions plugin
-RUN cd /var/www/known/IdnoPlugins \
-  && curl -s https://codeload.github.com/kylewm/KnownReactions/tar.gz/master | tar xzf - \
+RUN curl -s https://codeload.github.com/kylewm/KnownReactions/tar.gz/master | tar xzf - \
   && mv KnownReactions-master/ Reactions
 
 # Add Yourls plugin
-RUN cd /var/www/known/IdnoPlugins \
-  && curl -s https://codeload.github.com/danito/KnownYourls/tar.gz/master | tar xzf - \
+RUN  curl -s https://codeload.github.com/danito/KnownYourls/tar.gz/master | tar xzf - \
   && mv KnownYourls-master/ Yourls
 
 # Add Journal plugin
-RUN cd /var/www/known/IdnoPlugins \
-  && curl -s https://codeload.github.com/andrewgribben/KnownJournal/tar.gz/master | tar xzf - \
+RUN curl -s https://codeload.github.com/andrewgribben/KnownJournal/tar.gz/master | tar xzf - \
   && mv KnownJournal-master/ Journal
 
 # Add Mastodon plugin
-RUN cd /var/www/known/IdnoPlugins \
-  && curl -s https://codeload.github.com/danito/KnownMastodon/tar.gz/master | tar xzf - \
+RUN  curl -s https://codeload.github.com/danito/KnownMastodon/tar.gz/master | tar xzf - \
   && mv KnownMastodon-master/ Mastodon
 
 # Clean-up
