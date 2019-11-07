@@ -8,8 +8,8 @@ LABEL description="Image for Known (withknown.com) using MySQL/MariaDB as backen
       version="githead" \
       authors="Bjoern Stierand <bjoern-known@innovention.de>"
 
-ENV known_release_url https://codeload.github.com/idno/known/tar.gz/1.0.0
-ENV known_git_url https://codeload.github.com/idno/known/tar.gz/master
+ENV branch master
+ENV known_url https://codeload.github.com/idno/known/tar.gz/$branch
 ENV DEBIAN_FRONTEND noninteractive
 
 # Install Apache and extensions
@@ -59,16 +59,21 @@ RUN cd /etc/apache2/mods-enabled \
 # Download and extract Known distribution
 RUN mkdir -p /var/www/known \
   && cd /var/www/known \
-  && curl -s ${known_git_url} | tar xzf - \
+  && curl -s ${known_url} | tar -xzf - \
   && mv known-master/* /var/www/known \
   && mv known-master/.htaccess /var/www/known \
   && rm -r known-master
 
-# Configure Known
-COPY config.ini /var/www/known/
+# Configure Apache
 COPY apache2/sites-available/known.conf /etc/apache2/sites-available/
 
+# Configure Known
 WORKDIR /var/www/known
+
+# This adds a unique file that changes when the branch changes for cache busting
+ADD https://api.github.com/repos/idno/known/git/refs/heads/$BRANCH version.json
+
+COPY config.ini .
 
 RUN chmod 644 config.ini \
 	&& composer install --prefer-dist \
