@@ -8,8 +8,8 @@ LABEL description="Image for Known (withknown.com) using MySQL/MariaDB as backen
       version="githead" \
       authors="Bjoern Stierand <bjoern-known@innovention.de>"
 
-ENV known_release_url http://assets.withknown.com/releases/known-0.9.9.zip
-ENV known_git_url https://codeload.github.com/idno/Known/zip/master
+ENV branch master
+ENV known_url https://codeload.github.com/idno/known/tar.gz/${branch}
 ENV DEBIAN_FRONTEND noninteractive
 
 # Install Apache and extensions
@@ -54,27 +54,26 @@ RUN cd /etc/apache2/mods-enabled \
 # Download and extract Known distribution
 RUN mkdir -p /var/www/known \
   && cd /var/www/known \
-  && curl -ko known.zip ${known_git_url} \
-  && unzip known.zip \
+  && curl -s ${known_url} | tar -xzf - \
   && mv known-master/* /var/www/known \
   && mv known-master/.htaccess /var/www/known \
-  && rm known-master/.gitignore \
-  && rm known-master/.travis.yml \
-  && rm known-master/.babelrc \
-  && rm -r known-master/.github \
-  && rmdir known-master \
-  && rm known.zip
+  && rm -r known-master
 
-# Configure Known
-COPY config.ini /var/www/known/
+# Configure Apache
 COPY apache2/sites-available/known.conf /etc/apache2/sites-available/
 
+# Configure Known
 WORKDIR /var/www/known
 
+# This adds a unique file that changes when the branch changes for cache busting
+ADD https://api.github.com/repos/idno/known/git/refs/heads/$BRANCH version.json
+
+COPY config.ini .
+
 RUN chmod 644 config.ini \
-	&& composer install \
+	&& composer install --prefer-dist \
 	&& chown -R www-data:www-data /var/www/known/ \
-  && cd /etc/apache2/sites-enabled \
+	&& cd /etc/apache2/sites-enabled \
 	&& chmod 644 ../sites-available/known.conf \
 	&& rm -f 000-default.conf \
 	&& ln -s ../sites-available/known.conf .
@@ -85,82 +84,51 @@ RUN composer require egoexpress/known-shortprofile \
       idno/twitter \
       idno/flickr
 
+WORKDIR /var/www/known/IdnoPlugins
+
 # Add Facebook plugin
-RUN cd /var/www/known/IdnoPlugins \
-  && curl -kso facebook.zip https://codeload.github.com/idno/Facebook/zip/master \
-  && unzip -qq facebook.zip \
-  && mv Facebook-master/ Facebook \
-  && rm facebook.zip
+RUN curl -s https://codeload.github.com/idno/Facebook/tar.gz/master | tar xzf - \
+  && mv Facebook-master/ Facebook
 
 # Add SoundCloud plugin
-RUN cd /var/www/known/IdnoPlugins \
-  && curl -kso soundcloud.zip https://codeload.github.com/idno/SoundCloud/zip/master \
-  && unzip -qq soundcloud.zip \
-  && mv SoundCloud-master/ SoundCloud \
-  && rm soundcloud.zip
+RUN curl -s https://codeload.github.com/idno/SoundCloud/tar.gz/master | tar xzf - \
+  && mv SoundCloud-master/ SoundCloud
 
 # Add WordPress plugin
-RUN cd /var/www/known/IdnoPlugins \
-  && curl -kso wordpress.zip https://codeload.github.com/idno/WordPress/zip/master \
-  && unzip -qq wordpress.zip \
-  && mv WordPress-master/ WordPress \
-  && rm wordpress.zip
+RUN curl -s https://codeload.github.com/idno/WordPress/tar.gz/master | tar xzf - \
+  && mv WordPress-master/ WordPress
 
 # Add Diigo plugin
-RUN cd /var/www/known/IdnoPlugins \
-  && curl -kso diigo.zip https://codeload.github.com/idno/Diigo/zip/master \
-  && unzip -qq diigo.zip \
-  && mv Diigo-master/ Diigo \
-  && rm diigo.zip
+RUN curl -s https://codeload.github.com/idno/Diigo/tar.gz/master | tar xzf - \
+  && mv Diigo-master/ Diigo
 
 # Add Foursquare plugin
-RUN cd /var/www/known/IdnoPlugins \
-  && curl -kso foursquare.zip https://codeload.github.com/idno/Foursquare/zip/master \
-  && unzip -qq foursquare.zip \
-  && mv Foursquare-master/ Foursquare \
-  && rm foursquare.zip
+RUN  curl -s https://codeload.github.com/idno/Foursquare/tar.gz/master | tar xzf - \
+  && mv Foursquare-master/ Foursquare
 
 # Add Markdown plugin
-RUN cd /var/www/known/IdnoPlugins \
-  && curl -kso markdown.zip https://codeload.github.com/idno/Markdown/zip/master \
-  && unzip -qq markdown.zip \
-  && mv Markdown-master/ Markdown \
-  && rm markdown.zip
+RUN  curl -s https://codeload.github.com/idno/Markdown/tar.gz/master | tar xzf - \
+  && mv Markdown-master/ Markdown
 
 # Add Pushover plugin
-RUN cd /var/www/known/IdnoPlugins \
-  && curl -kso pushover.zip https://codeload.github.com/timmmmyboy/Pushover/zip/master \
-  && unzip -qq pushover.zip \
-  && mv Pushover-master/ Pushover \
-  && rm pushover.zip
+RUN  curl -s https://codeload.github.com/timmmmyboy/Pushover/tar.gz/master | tar xzf - \
+  && mv Pushover-master/ Pushover
 
 # Add Reactions plugin
-RUN cd /var/www/known/IdnoPlugins \
-  && curl -kso reactions.zip https://codeload.github.com/kylewm/KnownReactions/zip/master \
-  && unzip -qq reactions.zip \
-  && mv KnownReactions-master/ Reactions \
-  && rm reactions.zip
+RUN curl -s https://codeload.github.com/kylewm/KnownReactions/tar.gz/master | tar xzf - \
+  && mv KnownReactions-master/ Reactions
 
 # Add Yourls plugin
-RUN cd /var/www/known/IdnoPlugins \
-  && curl -kso yourls.zip https://codeload.github.com/danito/KnownYourls/zip/master \
-  && unzip -qq yourls.zip \
-  && mv KnownYourls-master/ Yourls \
-  && rm yourls.zip
+RUN  curl -s https://codeload.github.com/danito/KnownYourls/tar.gz/master | tar xzf - \
+  && mv KnownYourls-master/ Yourls
 
 # Add Journal plugin
-RUN cd /var/www/known/IdnoPlugins \
-  && curl -kso journal.zip https://codeload.github.com/andrewgribben/KnownJournal/zip/master \
-  && unzip -qq journal.zip \
-  && mv KnownJournal-master/ Journal \
-  && rm journal.zip
+RUN curl -s https://codeload.github.com/andrewgribben/KnownJournal/tar.gz/master | tar xzf - \
+  && mv KnownJournal-master/ Journal
 
 # Add Mastodon plugin
-RUN cd /var/www/known/IdnoPlugins \
-  && curl -kso mastodon.zip https://codeload.github.com/danito/KnownMastodon/zip/master \
-  && unzip -qq mastodon.zip \
-  && mv KnownMastodon-master/ Mastodon \
-  && rm mastodon.zip
+RUN  curl -s https://codeload.github.com/danito/KnownMastodon/tar.gz/master | tar xzf - \
+  && mv KnownMastodon-master/ Mastodon
 
 # Clean-up
 RUN rm -rf /var/lib/apt/lists/* && apt-get -yq clean
