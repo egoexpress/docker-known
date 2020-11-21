@@ -5,17 +5,15 @@ docker-known
 
 Initially based on [Davesgonechina's](https://github.com/davesgonechina) [Docker Known container setup](https://github.com/davesgonechina/docker-known), which in itself is based on [Eric Hansander's](https://github.com/ehdr) [Docker Known container](https://registry.hub.docker.com/u/ehdr/known/), this Known Docker configuration is now a complete rewrite on the docker-compose side.
 
-This repo builds a set of containers to run the latest stable version of [Known](https://withknown.com/) with one process per container (one for the MySQL database and one running Apache and the Known PHP application itself).
+This repo builds a set of containers to run the latest version of [Known](https://withknown.com/) from Github with one process per container (one for the MariaDB database and one running Apache and the Known PHP application itself).
 
 Changes within the fork
 -----------------------
 This fork contains the following changes in comparison to [Davesgonechina's original](https://github.com/davesgonechina/docker-known):
 
 - contains an other set of Known plugins (e.g contains Foursquare, but no LinkedIn)
-- runs on a Debian base image instead of Ubuntu (this is out of personal preference).
 - uses a [nginx reverse proxy](https://github.com/jwilder/nginx-proxy) with TLS through [Let's Encrypt](https://letsencrypt.org)
-
-This image used to use MongoDB instead of MySQL, but as the Known developers seem to favor MySQL and some strange errors using MongoDB occured the project switched back to use MySQL (using the official MySQL docker image).
+- uses the latest Ubuntu base image (currently 20.04 LTS 'Focal Fossa')
 
 How to run it
 -------------

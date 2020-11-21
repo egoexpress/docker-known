@@ -5,7 +5,7 @@
 FROM ubuntu:focal
 
 LABEL description="Image for Known (withknown.com) using MySQL/MariaDB as backend" \
-      version="githead" \
+      version="git" \
       authors="Bjoern Stierand <bjoern-known@innovention.de>"
 
 ENV branch master
@@ -27,12 +27,8 @@ ENV DEBIAN_FRONTEND noninteractive
 # - session (included in libapache2-mod-php5)
 # - xmlrpc
 RUN apt-get update && \
-    apt-get -yq --no-install-recommends install gnupg2 && \
-    rm -rf /var/lib/apt/lists/*
-
-# install all required packages
-RUN apt-get update && \
     apt-get -yq --no-install-recommends install \
+      gnupg2 \
 		  apache2 \
 		  composer \
 		  libapache2-mod-php7.4 \
@@ -45,7 +41,8 @@ RUN apt-get update && \
       mysql-client \
       unzip \
       curl && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    apt-get -yq clean
 
 # Configure Apache
 RUN cd /etc/apache2/mods-enabled \
@@ -129,9 +126,6 @@ RUN curl -s https://codeload.github.com/andrewgribben/KnownJournal/tar.gz/master
 # Add Mastodon plugin
 RUN  curl -s https://codeload.github.com/danito/KnownMastodon/tar.gz/master | tar xzf - \
   && mv KnownMastodon-master/ Mastodon
-
-# Clean-up
-RUN rm -rf /var/lib/apt/lists/* && apt-get -yq clean
 
 # Set up container entrypoint
 COPY docker-entrypoint.sh /docker-entrypoint.sh
