@@ -1,7 +1,7 @@
 docker-known
 ============
 
-![cistatus](https://github.com/egoexpress/docker-known/workflows/Docker%20Image%20CI/badge.svg)
+![Docker Image CI](https://github.com/egoexpress/docker-known/workflows/Docker%20Image%20CI/badge.svg) ![Anchore Container Scan](https://github.com/egoexpress/docker-known/workflows/Anchore%20Container%20Scan/badge.svg)
 
 Initially based on [Davesgonechina's](https://github.com/davesgonechina) [Docker Known container setup](https://github.com/davesgonechina/docker-known), which in itself is based on [Eric Hansander's](https://github.com/ehdr) [Docker Known container](https://registry.hub.docker.com/u/ehdr/known/), this Known Docker configuration is now a complete rewrite on the docker-compose side.
 
