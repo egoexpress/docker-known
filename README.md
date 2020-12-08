@@ -3,9 +3,9 @@ docker-known
 
 ![Docker Image CI](https://github.com/egoexpress/docker-known/workflows/Docker%20Image%20CI/badge.svg) ![Anchore Container Scan](https://github.com/egoexpress/docker-known/workflows/Anchore%20Container%20Scan/badge.svg)
 
-Initially based on [Davesgonechina's](https://github.com/davesgonechina) [Docker Known container setup](https://github.com/davesgonechina/docker-known), which in itself is based on [Eric Hansander's](https://github.com/ehdr) [Docker Known container](https://registry.hub.docker.com/u/ehdr/known/), this Known Docker configuration is now a complete rewrite on the docker-compose side.
+Initially based on [Davesgonechina's](https://github.com/davesgonechina) [Docker Known container setup](https://github.com/davesgonechina/docker-known), which itself is based on [Eric Hansander's](https://github.com/ehdr) [Docker Known container](https://registry.hub.docker.com/u/ehdr/known/), this Known Docker configuration is now a complete rewrite on the docker-compose side.
 
-This repo builds a set of containers to run the latest version of [Known](https://withknown.com/) from Github with one process per container (one for the MariaDB database and one running Apache and the Known PHP application itself).
+This repo builds a set of containers to run the latest version of [Known](https://withknown.com/) from the 'main' Github branch with one process per container (one for the MariaDB database and one running Apache and the Known PHP application itself).
 
 Changes within the fork
 -----------------------
@@ -28,11 +28,7 @@ Don't set `DOCKER_KNOWN_HOSTNAME` and `DOCKER_LETSENCRYPT_EMAIL` if you don't us
 Enter the Known site address into your browser, and follow the instructions to create an account.
 
 If you are running docker locally on your machine, you should be able to
-access it at `http://localhost/`.  If you are running [boot2docker](http://boot2docker.io/), you
-instead need to enter the local IP of your boot2docker virtual machine, which
-you can find by running
-
-    boot2docker ip
+access the Known web interface it at `http://localhost/`.
 
 How to build it
 ---------------
