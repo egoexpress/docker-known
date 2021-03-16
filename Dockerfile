@@ -2,7 +2,7 @@
 # initially forked from davesgonechina/docker-known
 # inspired by ehdr/known and indiepaas/known
 
-FROM ubuntu:focal
+FROM ubuntu:groovy
 
 LABEL description="Image for Known (withknown.com) using MySQL/MariaDB as backend" \
       version="git" \
