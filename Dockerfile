@@ -52,9 +52,9 @@ RUN cd /etc/apache2/mods-enabled \
 RUN mkdir -p /var/www/known \
   && cd /var/www/known \
   && curl -s ${known_url} | tar -xzf - \
-  && mv known-master/* /var/www/known \
-  && mv known-master/.htaccess /var/www/known \
-  && rm -r known-master
+  && mv known-${branch}/* /var/www/known \
+  && mv known-${branch}/.htaccess /var/www/known \
+  && rm -r known-${branch}
 
 # Configure Apache
 COPY apache2/sites-available/known.conf /etc/apache2/sites-available/
