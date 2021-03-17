@@ -8,7 +8,7 @@ LABEL description="Image for Known (withknown.com) using MySQL/MariaDB as backen
       version="git" \
       authors="Bjoern Stierand <bjoern-known@innovention.de>"
 
-ENV branch master
+ENV branch dev
 ENV known_url https://codeload.github.com/idno/known/tar.gz/${branch}
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -52,9 +52,9 @@ RUN cd /etc/apache2/mods-enabled \
 RUN mkdir -p /var/www/known \
   && cd /var/www/known \
   && curl -s ${known_url} | tar -xzf - \
-  && mv known-master/* /var/www/known \
-  && mv known-master/.htaccess /var/www/known \
-  && rm -r known-master
+  && mv known-${branch}/* /var/www/known \
+  && mv known-${branch}/.htaccess /var/www/known \
+  && rm -r known-${branch}
 
 # Configure Apache
 COPY apache2/sites-available/known.conf /etc/apache2/sites-available/
