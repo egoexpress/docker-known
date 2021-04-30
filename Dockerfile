@@ -84,28 +84,28 @@ RUN composer require egoexpress/known-shortprofile \
 WORKDIR /var/www/known/IdnoPlugins
 
 # Add Facebook plugin
-RUN curl -s https://codeload.github.com/idno/Facebook/tar.gz/master | tar xzf - \
-  && mv Facebook-master/ Facebook
+RUN curl -s https://codeload.github.com/idno/Facebook/tar.gz/dev | tar xzf - \
+  && mv Facebook-dev/ Facebook
 
 # Add SoundCloud plugin
-RUN curl -s https://codeload.github.com/idno/SoundCloud/tar.gz/master | tar xzf - \
-  && mv SoundCloud-master/ SoundCloud
+RUN curl -s https://codeload.github.com/idno/SoundCloud/tar.gz/dev | tar xzf - \
+  && mv SoundCloud-dev/ SoundCloud
 
 # Add WordPress plugin
-RUN curl -s https://codeload.github.com/idno/WordPress/tar.gz/master | tar xzf - \
-  && mv WordPress-master/ WordPress
+RUN curl -s https://codeload.github.com/idno/WordPress/tar.gz/dev | tar xzf - \
+  && mv WordPress-dev/ WordPress
 
 # Add Diigo plugin
-RUN curl -s https://codeload.github.com/idno/Diigo/tar.gz/master | tar xzf - \
+RUN curl -s https://codeload.github.com/timmmmyboy/Diigo/tar.gz/master | tar xzf - \
   && mv Diigo-master/ Diigo
 
 # Add Foursquare plugin
-RUN  curl -s https://codeload.github.com/idno/Foursquare/tar.gz/master | tar xzf - \
-  && mv Foursquare-master/ Foursquare
+RUN  curl -s https://codeload.github.com/idno/Foursquare/tar.gz/dev | tar xzf - \
+  && mv Foursquare-dev/ Foursquare
 
 # Add Markdown plugin
-RUN  curl -s https://codeload.github.com/idno/Markdown/tar.gz/master | tar xzf - \
-  && mv Markdown-master/ Markdown
+RUN  curl -s https://codeload.github.com/idno/Markdown/tar.gz/dev | tar xzf - \
+  && mv Markdown-dev/ Markdown
 
 # Add Pushover plugin
 RUN  curl -s https://codeload.github.com/timmmmyboy/Pushover/tar.gz/master | tar xzf - \
