@@ -2,7 +2,7 @@
 # initially forked from davesgonechina/docker-known
 # inspired by ehdr/known and indiepaas/known
 
-FROM ubuntu:groovy
+FROM ubuntu:hirsute
 
 LABEL description="Image for Known (withknown.com) using MySQL/MariaDB as backend" \
       version="git" \
@@ -46,7 +46,8 @@ RUN apt-get update && \
 
 # Configure Apache
 RUN cd /etc/apache2/mods-enabled \
-	&& ln -s ../mods-available/rewrite.load .
+	&& ln -s ../mods-available/rewrite.load . \
+	&& ln -s ../mods-available/headers.load .
 
 # Download and extract Known distribution
 RUN mkdir -p /var/www/known \
