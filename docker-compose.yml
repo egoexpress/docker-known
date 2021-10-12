@@ -10,8 +10,8 @@ services:
     environment:
       - MYSQL_DATABASE=known
       - MYSQL_USER=known
-      - MYSQL_PASSWORD=${DOCKER_KNOWN_MYSQL_PASSWORD}
-      - MYSQL_ROOT_PASSWORD=${DOCKER_KNOWN_MYSQL_PASSWORD}
+      - MYSQL_PASSWORD=${DOCKER_KNOWN_MYSQL_PASSWORD-unset}
+      - MYSQL_ROOT_PASSWORD=${DOCKER_KNOWN_MYSQL_PASSWORD-unset}
     networks:
       backend:
 
@@ -25,10 +25,10 @@ services:
     volumes:
       - data:/known/uploads
     environment:
-      - VIRTUAL_HOST=${DOCKER_KNOWN_HOSTNAME}
-      - LETSENCRYPT_HOST=${DOCKER_KNOWN_HOSTNAME}
-      - LETSENCRYPT_EMAIL=${DOCKER_LETSENCRYPT_EMAIL}
-      - KNOWN_MYSQL_PASSWORD=${DOCKER_KNOWN_MYSQL_PASSWORD}
+      - VIRTUAL_HOST=${DOCKER_KNOWN_HOSTNAME-unset}
+      - LETSENCRYPT_HOST=${DOCKER_KNOWN_HOSTNAME-unset}
+      - LETSENCRYPT_EMAIL=${DOCKER_LETSENCRYPT_EMAIL-unset}
+      - KNOWN_MYSQL_PASSWORD=${DOCKER_KNOWN_MYSQL_PASSWORD-unset}
       - SSL_POLICY=Mozilla-Modern
     networks:
       frontend:
@@ -37,6 +37,7 @@ services:
 networks:
   frontend:
   backend:
+    internal: true
 
 volumes:
   db:
