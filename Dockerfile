@@ -29,12 +29,12 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && \
     apt-get -yq --no-install-recommends install \
       gnupg2 \
-		  apache2 \
-		  composer \
-		  libapache2-mod-php7.4 \
-		  php7.4-curl \
-		  php7.4-gd \
-		  php7.4-mysql \
+      apache2 \
+      composer \
+      libapache2-mod-php7.4 \
+      php7.4-curl \
+      php7.4-gd \
+      php7.4-mysql \
       php7.4-xmlrpc \
       php7.4-mbstring \
       php7.4-xml \
@@ -46,8 +46,8 @@ RUN apt-get update && \
 
 # Configure Apache
 RUN cd /etc/apache2/mods-enabled \
-	&& ln -s ../mods-available/rewrite.load . \
-	&& ln -s ../mods-available/headers.load .
+  && ln -s ../mods-available/rewrite.load . \
+  && ln -s ../mods-available/headers.load .
 
 # Download and extract Known distribution
 RUN mkdir -p /var/www/known \
@@ -69,12 +69,13 @@ ADD https://api.github.com/repos/idno/known/git/refs/heads/$BRANCH version.json
 COPY config.ini .
 
 RUN chmod 644 config.ini \
-	&& composer install --prefer-dist \
-	&& chown -R www-data:www-data /var/www/known/ \
-	&& cd /etc/apache2/sites-enabled \
-	&& chmod 644 ../sites-available/known.conf \
-	&& rm -f 000-default.conf \
-	&& ln -s ../sites-available/known.conf .
+  && composer update \
+  && composer install --prefer-dist \
+  && chown -R www-data:www-data /var/www/known/ \
+  && cd /etc/apache2/sites-enabled \
+  && chmod 644 ../sites-available/known.conf \
+  && rm -f 000-default.conf \
+  && ln -s ../sites-available/known.conf .
 
 RUN composer require egoexpress/known-shortprofile \
       egoexpress/known-smallheader \
