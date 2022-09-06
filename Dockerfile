@@ -2,7 +2,7 @@
 # initially forked from davesgonechina/docker-known
 # inspired by ehdr/known and indiepaas/known
 
-FROM ubuntu:hirsute
+FROM ubuntu:jammy
 
 LABEL description="Image for Known (withknown.com) using MySQL/MariaDB as backend" \
       version="git" \
@@ -31,13 +31,13 @@ RUN apt-get update && \
       gnupg2 \
       apache2 \
       composer \
-      libapache2-mod-php7.4 \
-      php7.4-curl \
-      php7.4-gd \
-      php7.4-mysql \
-      php7.4-xmlrpc \
-      php7.4-mbstring \
-      php7.4-xml \
+      libapache2-mod-php8.1 \
+      php8.1-curl \
+      php8.1-gd \
+      php8.1-mysql \
+      php8.1-xmlrpc \
+      php8.1-mbstring \
+      php8.1-xml \
       mysql-client \
       unzip \
       curl && \
@@ -59,6 +59,7 @@ RUN mkdir -p /var/www/known \
 
 # Configure Apache
 COPY apache2/sites-available/known.conf /etc/apache2/sites-available/
+COPY files/composer.json /var/www/known
 
 # Configure Known
 WORKDIR /var/www/known
@@ -69,8 +70,8 @@ ADD https://api.github.com/repos/idno/known/git/refs/heads/$BRANCH version.json
 COPY config.ini .
 
 RUN chmod 644 config.ini \
-  && composer update \
-  && composer install --prefer-dist \
+  && composer update  --no-dev -o -a \
+  && composer install --no-dev -o -a \
   && chown -R www-data:www-data /var/www/known/ \
   && cd /etc/apache2/sites-enabled \
   && chmod 644 ../sites-available/known.conf \
