@@ -3,7 +3,7 @@ version: '3.3'
 services:
 
   db:
-    image: mariadb:10.9
+    image: mariadb:10.11
     restart: always
     volumes:
       - db:/var/lib/mysql
