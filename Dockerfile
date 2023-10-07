@@ -5,10 +5,10 @@
 FROM ubuntu:jammy
 
 LABEL description="Image for Known (withknown.com) using MySQL/MariaDB as backend" \
-      version="git" \
+      version="1.5" \
       authors="Bjoern Stierand <bjoern-known@innovention.de>"
 
-ENV branch dev
+ENV branch 1.5
 ENV known_url https://codeload.github.com/idno/known/tar.gz/${branch}
 ENV DEBIAN_FRONTEND noninteractive
 
