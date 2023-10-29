@@ -8,7 +8,7 @@ LABEL description="Image for Known (withknown.com) using MySQL/MariaDB as backen
       version="1.5" \
       authors="Bjoern Stierand <bjoern-known@innovention.de>"
 
-ENV branch 1.5
+ENV branch dev
 ENV known_url https://codeload.github.com/idno/known/tar.gz/${branch}
 ENV DEBIAN_FRONTEND noninteractive
 
