@@ -2,7 +2,7 @@
 # initially forked from davesgonechina/docker-known
 # inspired by ehdr/known and indiepaas/known
 
-FROM ubuntu:jammy
+FROM ubuntu:oracular
 
 LABEL description="Image for Known (withknown.com) using MySQL/MariaDB as backend" \
       version="1.5" \
@@ -31,13 +31,13 @@ RUN apt-get update && \
       gnupg2 \
       apache2 \
       composer \
-      libapache2-mod-php8.1 \
-      php8.1-curl \
-      php8.1-gd \
-      php8.1-mysql \
-      php8.1-xmlrpc \
-      php8.1-mbstring \
-      php8.1-xml \
+      libapache2-mod-php8.3 \
+      php8.3-curl \
+      php8.3-gd \
+      php8.3-mysql \
+      php8.3-xmlrpc \
+      php8.3-mbstring \
+      php8.3-xml \
       mysql-client \
       unzip \
       curl && \
@@ -78,10 +78,10 @@ RUN chmod 644 config.ini \
   && rm -f 000-default.conf \
   && ln -s ../sites-available/known.conf .
 
-RUN composer require egoexpress/known-shortprofile \
+RUN composer require -W \
+      egoexpress/known-shortprofile \
       egoexpress/known-smallheader \
       egoexpress/known-pinboard \
-      idno/twitter \
       idno/flickr
 
 WORKDIR /var/www/known/IdnoPlugins
