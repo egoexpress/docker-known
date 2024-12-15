@@ -5,10 +5,10 @@
 FROM ubuntu:oracular
 
 LABEL description="Image for Known (withknown.com) using MySQL/MariaDB as backend" \
-      version="1.5" \
+      version="2024-12-15" \
       authors="Bjoern Stierand <bjoern-known@innovention.de>"
 
-ENV branch 1.5
+ENV branch dev
 ENV known_url https://codeload.github.com/idno/known/tar.gz/${branch}
 ENV DEBIAN_FRONTEND noninteractive
 

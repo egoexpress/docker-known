@@ -1,9 +1,7 @@
-version: '3.3'
-
 services:
 
   db:
-    image: mariadb:11.1
+    image: mariadb:11.6
     restart: always
     volumes:
       - db:/var/lib/mysql
@@ -16,7 +14,7 @@ services:
       backend:
 
   app:
-    image: egoexpress/known:1.5
+    image: egoexpress/known:20241215
     restart: always
     depends_on:
       - db
